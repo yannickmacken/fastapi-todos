@@ -45,7 +45,7 @@ async def read_book(book_name: str):
     return BOOKS[book_name]
 
 
-@app.post('/')
+@app.post('/')  # All args are now query params, since they are not included in URL
 async def create_book(book_title: str, book_author: str):
     for i in range(len(BOOKS)+1):
         if not BOOKS.get(str(i)):
@@ -64,7 +64,7 @@ async def update_book(book_name: str, book_title: Optional[str] = None, book_aut
     return book_information
 
 
-@app.delete('/{book_name}')
+@app.delete('/{book_name}')  # Book name is a URL param since it is included in URL
 async def delete_book(book_name: str):
     BOOKS.pop(book_name)
     return f"book {book_name} deleted."
