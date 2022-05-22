@@ -4,6 +4,7 @@ from database import Base
 
 
 class Users(Base):
+    """Database model for users which inherits attributes from Base."""
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -18,6 +19,7 @@ class Users(Base):
 
 
 class Todos(Base):
+    """Database model for todos which inherits attributes from Base."""
     __tablename__ = "todos"
 
     id = Column(Integer, primary_key=True, index=True)

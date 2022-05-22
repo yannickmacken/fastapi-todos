@@ -11,11 +11,13 @@ import models
 from database import engine, SessionLocal
 
 
+# Determine secret key and algorithm type used to decode information in Json Web Token
 SECRET_KEY = "aD3d2f32432oI293j5i2k26lJ343"
 ALGORITHM = "HS256"
 
 
 class CreateUser(BaseModel):
+    """Request model to create and update user."""
     username: str
     email: Optional[str]
     first_name: str
@@ -23,19 +25,21 @@ class CreateUser(BaseModel):
     password: str
 
 
+# Create crypt context to hash and verify password
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
-
+# Initialize app
 app = FastAPI()
 
-
+# Create database with schema or if database schema is existing, update schema in database
 models.Base.metadata.create_all(bind=engine)
 
-
+# Used to decode Json Web Token
 oath2_bearer = OAuth2PasswordBearer(tokenUrl='token')
 
 
 def get_db():
+    """Method to start a new session to access the database."""
     try:
         db = SessionLocal()
         yield db
