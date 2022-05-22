@@ -66,6 +66,7 @@ def authenticate_user(username: str, password: str, db):
 
 
 def create_access_token(username: str, user_id: int, expires_delta: Optional[timedelta] = None):
+    """Create and return access token from username and id, expiration of 15 min."""
     encode = {"sub": username, "id": user_id}
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
@@ -98,6 +99,8 @@ async def create_new_user(create_user: CreateUser, db: Session = Depends(get_db)
 @app.post('/token')
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
                                  db: Session = Depends(get_db)):
+    """Get login form input from user. Validate password/user combination.
+    If validated, generate and return access token to client."""
     user = authenticate_user(form_data.username, form_data.password, db)
     if not user:
         raise get_user_exception()
