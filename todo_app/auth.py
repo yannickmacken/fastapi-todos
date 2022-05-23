@@ -110,6 +110,8 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 
 async def get_current_user(token: str = Depends(oath2_bearer)):
+    """Method used as dependecy on path methods to decode the token and get the current user.
+    If succesfull, returns username and id."""
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get('sub')

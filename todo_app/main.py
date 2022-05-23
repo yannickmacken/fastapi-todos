@@ -43,21 +43,27 @@ async def read_all_by_user(user: dict = Depends(get_current_user),
     return db.query(models.Todos).filter(models.Todos.owner_id == user.get("id")).all()
 
 
-@app.get('/{todo_id}')
-async def read_todo(todo_id: int, db: Session = Depends(get_db)):
+@app.get('/todo/{todo_id}')
+async def read_todo(todo_id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
 
     # Query database for to do with same id, or raise exception
-    todo_model = db.query(models.Todos).filter(models.Todos.id == todo_id).first()
+    todo_model = db.query(models.Todos)\
+        .filter(models.Todos.id == todo_id)\
+        .filter(models.Todos.owner_id == user.get('id'))\
+        .first()
     if todo_model:
         return todo_model
     raise HTTPException(status_code=404, detail="Todo not found")
 
 
 @app.put('/{todo_id}', status_code=status.HTTP_201_CREATED)
-async def update_todo(todo_id: int, todo: Todo, db: Session = Depends(get_db)):
+async def update_todo(todo_id: int, todo: Todo, user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
 
     # Query database for to do with same id, or raise exception
-    todo_model = db.query(models.Todos).filter(models.Todos.id == todo_id).first()
+    todo_model = db.query(models.Todos)\
+        .filter(models.Todos.id == todo_id)\
+        .filter(models.Todos.owner_id == user.get('id')) \
+        .first()
     if todo_model:
 
         # Overwrite to do model attributes
@@ -75,7 +81,7 @@ async def update_todo(todo_id: int, todo: Todo, db: Session = Depends(get_db)):
 
 
 @app.post('/', status_code=status.HTTP_201_CREATED)
-async def create_todo(todo: Todo, db: Session = Depends(get_db)):
+async def create_todo(todo: Todo, user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
 
     # Build to do database model from to do model inputs
     todo_model = models.Todos()
@@ -83,6 +89,7 @@ async def create_todo(todo: Todo, db: Session = Depends(get_db)):
     todo_model.description = todo.description
     todo_model.priority = todo.priority
     todo_model.complete = todo.complete
+    todo_model.owner_id = user.get('id')
 
     # Add to do database model to database
     db.add(todo_model)
@@ -91,10 +98,13 @@ async def create_todo(todo: Todo, db: Session = Depends(get_db)):
 
 
 @app.delete('/{todo_id}')
-async def delete_todo(todo_id: int, db: Session = Depends(get_db)):
+async def delete_todo(todo_id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
 
     # Query database for to do with same id, or raise exception
-    todo_model = db.query(models.Todos).filter(models.Todos.id == todo_id).first()
+    todo_model = db.query(models.Todos)\
+        .filter(models.Todos.id == todo_id) \
+        .filter(models.Todos.owner_id == user.get('id')) \
+        .first()
     if todo_model:
 
         # Add to do model to database, overwriting previous model with same id
