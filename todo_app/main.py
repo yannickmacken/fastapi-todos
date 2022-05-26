@@ -1,18 +1,19 @@
 from typing import Optional
-
+from sqlalchemy.orm import Session
+from pydantic import BaseModel, Field
 from fastapi import FastAPI, Depends, HTTPException
 from starlette import status
 
-import models
-from database import engine, SessionLocal
-from sqlalchemy.orm import Session
-from pydantic import BaseModel, Field
-
-from auth import get_current_user, get_user_exception
+from todo_app import models
+from todo_app.database import engine, SessionLocal
+from todo_app.routers.auth import get_current_user, get_user_exception, router
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
+
+# Include auth router in app
+app.include_router(router)
 
 
 def get_db():

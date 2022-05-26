@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, APIRouter
 from pydantic import BaseModel
 from typing import Optional
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
@@ -7,8 +7,8 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
-import models
-from database import engine, SessionLocal
+from todo_app import models
+from todo_app.database import engine, SessionLocal
 
 
 # Determine secret key and algorithm type used to decode information in Json Web Token
@@ -28,8 +28,8 @@ class CreateUser(BaseModel):
 # Create crypt context to hash and verify password
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
-# Initialize app
-app = FastAPI()
+# Extend main app with this router
+router = APIRouter()
 
 # Create database with schema or if database schema is existing, update schema in database
 models.Base.metadata.create_all(bind=engine)
@@ -76,7 +76,7 @@ def create_access_token(username: str, user_id: int, expires_delta: Optional[tim
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-@app.post('/create/user')
+@router.post('/create/user')
 async def create_new_user(create_user: CreateUser, db: Session = Depends(get_db)):
 
     # Build user database model from user model input
@@ -96,7 +96,7 @@ async def create_new_user(create_user: CreateUser, db: Session = Depends(get_db)
     return create_user
 
 
-@app.post('/token')
+@router.post('/token')
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
                                  db: Session = Depends(get_db)):
     """Get login form input from user. Validate password/user combination.
