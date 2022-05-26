@@ -29,7 +29,7 @@ class CreateUser(BaseModel):
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
 # Extend main app with this router
-router = APIRouter()
+router = APIRouter(prefix='/auth', tags=['auth'], responses={401: {'user': 'Not authorized'}})
 
 # Create database with schema or if database schema is existing, update schema in database
 models.Base.metadata.create_all(bind=engine)
