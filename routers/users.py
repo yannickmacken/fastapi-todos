@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from fastapi import Depends, HTTPException, APIRouter
 
-from todo_app import models
-from todo_app.database import engine, SessionLocal
-from todo_app.routers.auth import get_current_user, authenticate_user, get_user_exception, verify_password, \
+import models
+from database import engine, SessionLocal
+from routers.auth import get_current_user, get_user_exception, verify_password, \
     get_password_hash
 
 router = APIRouter(prefix='/users', tags=['users'], responses={404: {'description': 'Not found'}})

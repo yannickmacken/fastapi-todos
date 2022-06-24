@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 # An Engine, which the Session will use for connection resources, specifying location and type of database
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:yann-RO-1616@localhost/TodoApplicationDatabase"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:pg-yann@localhost/ToDoApplicationDatabase"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # One central factory method to create a session. When SessionLocal() is called,

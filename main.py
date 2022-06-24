@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Depends
 
-from todo_app import models
-from todo_app.company.dependencies import get_token_header
-from todo_app.database import engine
-from todo_app.routers import auth, todos, users
-from todo_app.company import companyapis
+import models
+from company.dependencies import get_token_header
+from database import engine
+from routers import todos, auth, users, address
+from company import companyapis
 
 app = FastAPI()
 
@@ -14,6 +14,7 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(auth.router)
 app.include_router(todos.router)
 app.include_router(users.router)
+app.include_router(address.router)
 
 # Include company apis router in app, but determine prefixes from main instead of on company apis module
 app.include_router(

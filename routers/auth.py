@@ -7,8 +7,8 @@ from jose import jwt, JWTError
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
-from todo_app import models
-from todo_app.database import engine, SessionLocal
+import models
+from database import engine, SessionLocal
 
 
 # Determine secret key and algorithm type used to decode information in Json Web Token

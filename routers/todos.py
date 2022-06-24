@@ -4,9 +4,9 @@ from pydantic import BaseModel, Field
 from fastapi import Depends, HTTPException, APIRouter
 from starlette import status
 
-from todo_app import models
-from todo_app.database import engine, SessionLocal
-from todo_app.routers.auth import get_current_user, get_user_exception
+import models
+from database import engine, SessionLocal
+from routers.auth import get_current_user, get_user_exception
 
 router = APIRouter(prefix='/todos', tags=['todos'], responses={404: {'description': 'Not found'}})
 
