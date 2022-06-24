@@ -42,6 +42,7 @@ class Address(Base):
     id = Column(Integer, primary_key=True, index=True)
     address1 = Column(String)
     address2 = Column(String)
+    apt_num = Column(String)
     city = Column(String)
     state = Column(String)
     country = Column(String)

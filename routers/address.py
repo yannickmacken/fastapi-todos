@@ -29,10 +29,12 @@ def get_db():
 class Address(BaseModel):
     address1: str
     address2: Optional[str]
+    apt_num: Optional[str]
     city: str
     state: str
     country: str
     postalcode: str
+
 
 @router.post("/")
 async def create_address(address: Address, user: dict = Depends(get_current_user),
@@ -43,6 +45,7 @@ async def create_address(address: Address, user: dict = Depends(get_current_user
     address_model = models.Address()
     address_model.address1 = address.address1
     address_model.address2 = address.address2
+    address_model.apt_num = address.apt_num
     address_model.city = address.city
     address_model.state = address.state
     address_model.country = address.country

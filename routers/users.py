@@ -27,15 +27,6 @@ class UserVerification(BaseModel):
     new_password: str
 
 
-class GetUser(BaseModel):
-    """Request model to get user."""
-    username: str
-    email: Optional[str]
-    first_name: str
-    last_name: str
-    password: str
-
-
 @router.get('/')
 async def read_all(db: Session = Depends(get_db)):
     return db.query(models.Users).all()
