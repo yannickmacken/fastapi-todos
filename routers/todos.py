@@ -1,8 +1,11 @@
 from typing import Optional
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
-from fastapi import Depends, HTTPException, APIRouter
+from fastapi import Depends, HTTPException, APIRouter, Request
 from starlette import status
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+
 
 import models
 from database import engine, SessionLocal
@@ -11,6 +14,8 @@ from routers.auth import get_current_user, get_user_exception
 router = APIRouter(prefix='/todos', tags=['todos'], responses={404: {'description': 'Not found'}})
 
 models.Base.metadata.create_all(bind=engine)
+
+templates = Jinja2Templates(directory="templates")
 
 
 def get_db():
@@ -26,6 +31,11 @@ class Todo(BaseModel):  # Model to determine the post request valid inputs, not 
     description: Optional[str]
     priority: int = Field(gt=0, lt=6, description='Priority must be between 1-5')
     complete: bool
+
+
+@router.get('/test')
+async def test(request: Request):
+    return templates.TemplateResponse("home.html", {"request": request})
 
 
 @router.get('/')
