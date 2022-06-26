@@ -11,7 +11,6 @@
 
 </head>
 <body>
-
 <div>
     <nav class="navbar navbar-expand-md navbar-dark main-color fixed-top">
         <a class="navbar-brand" href="#">Todo App</a>
@@ -30,53 +29,31 @@
 </div>
 
 <div class="container">
-    <div class="card text-center">
+    <div class="card">
         <div class="card-header">
-            Your Todos!
+            Login
         </div>
         <div class="card-body">
-            <h5 class="card-title">List of your Todos!</h5>
-            <p class="card-text">Information regarding stuff that needs to be complete</p>
-
-            <table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Info</th>
-      <th scope="col">Actions</th>
-
-    </tr>
-  </thead>
-  <tbody>
-
-<tr class="pointer" >
-
-      <td>1</td>
-      <td id="td1">Take out the trash </td>
-      <td><button type="button" class="btn btn-success">Complete</button> <button type="button" class="btn btn-danger">Delete</button> </td>
-    </tr>
-
-  <tr class="pointer">
-
-      <td>2</td>
-      <td>Take out the trash</td>
-      <td><button type="button" class="btn btn-success">Complete</button> <button type="button" class="btn btn-danger">Delete</button> </td>
-    </tr>
-
-  <tr class="pointer" >
-
-      <td>3</td>
-      <td >Take out the trash </td>
-      <td><button type="button" class="btn btn-success">Complete</button> <button type="button" class="btn btn-danger">Delete</button> </td>
-    </tr>
-
-  </tbody>
-</table>
-
-            <a href="#" class="btn btn-primary">Add a new Todo!</a>
+            <form>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control"
+                           name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="#"> Register? </a>
         </div>
     </div>
 </div>
+
+
 <script src="{{ url_for('static', path='/todo/js/jquery-slim.js') }}"></script>
 <script src="{{ url_for('static', path='/todo/js/popper.js') }}"></script>
 <script src="{{ url_for('static', path='/todo/js/bootstrap.js') }}"></script>
