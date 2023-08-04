@@ -1,3 +1,3 @@
 # fastapi
  
-Example project using the fast-api Python framework.
+Todo list backend with FastAPI
